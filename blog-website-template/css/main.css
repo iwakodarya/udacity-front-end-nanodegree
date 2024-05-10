@@ -44,6 +44,19 @@ p {
     border-bottom: 2px solid #2c69b0;
 }
 
+.nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.top-nav-button {
+    font-family: "Quicksand", Verdana, sans-serif;
+    font-size: 16px;
+    border: none;
+    background: white;
+}
+
 .content {
     grid-area: ct;
     display: flex;

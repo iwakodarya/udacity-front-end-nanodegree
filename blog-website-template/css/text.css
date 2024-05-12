@@ -26,3 +26,8 @@ p {
     margin-bottom: 5px;
     margin-top: 0px;
 }
+
+figcaption {
+    color: grey;
+    text-align: center;
+}

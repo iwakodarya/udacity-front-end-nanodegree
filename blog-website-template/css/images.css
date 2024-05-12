@@ -5,5 +5,12 @@
 }
 
 .author-photo {
+    grid-area: pic;
     max-width: 150px;
+    max-height: 150px;
+}
+
+.social-media-icons {
+    display: flex;
+    gap: 5px;
 }

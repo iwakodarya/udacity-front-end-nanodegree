@@ -48,18 +48,20 @@
 
 .author-card {
     display: flex;
-    flex-direction: column;
+    gap: 10px;
 }
 
 @media (min-width:600px) {
     .base-grid {
-        display: grid;
-        gap: 10px;
         grid-template-rows: auto 1fr auto;
         grid-template-columns: 4fr 1fr;
         grid-template-areas:
             "hd hd"
             "ct ab"
             "ft ft";
+    }
+
+    .author-card {
+        flex-direction: column;
     }
 }

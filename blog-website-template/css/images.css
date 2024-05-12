@@ -1,7 +1,9 @@
-@import "../../css/main.css";
-
 .blog-photo {
     display: block;
     width: 100%;
     height: auto;
+}
+
+.author-photo {
+    max-width: 150px;
 }

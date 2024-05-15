@@ -5,10 +5,9 @@ Description: A simple travel blog website using CSS Grid and Flexbox that is res
 ### Skills used:
 * HTML
 * CSS (including Flexbox, Grid)
-* Basic media queries for responsive design
+* Media queries for responsive page design
 
 ### Quick demo:
-![blog-website-3](https://github.com/iwakodarya/udacity-front-end-nanodegree/assets/168930878/bc407cba-7032-45e7-b753-fcfe7aa1db79)
-
+![Kapture 2024-05-14 at 17 53 54](https://github.com/iwakodarya/udacity-front-end-nanodegree/assets/168930878/1511c8d3-453f-4f83-bb9f-a21cad16de40)
 
 

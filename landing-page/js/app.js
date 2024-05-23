@@ -22,14 +22,32 @@
  * Define Global Variables
  * 
 */
-
+const sectionNodes = document.querySelectorAll('section');
 
 /**
  * End Global Variables
  * Start Helper Functions
  * 
 */
+function isSectionTopOfViewPort(sectionElement){
+    const distanceToTop = sectionElement.getBoundingClientRect().top;
 
+    if (distanceToTop >=0 & distanceToTop <= 0.25*visualViewport.height)
+        return true;
+    else 
+        return false;
+};
+
+function updateActiveSection(){
+    //loop over sections and update classes as needed 
+    for (node of sectionNodes){
+        if (isSectionTopOfViewPort(node)){
+            node.classList.add('active-section');
+        }
+        else
+            node.classList.remove('active-section');
+    }
+};
 
 
 /**
@@ -39,10 +57,18 @@
 */
 
 // build the nav
+const navBarFragment = document.createDocumentFragment();
 
+for (node of sectionNodes){
+    const navBarSectionNode = document.createElement('li');
+    navBarSectionNode.innerText = node.dataset.nav;
+    navBarFragment.appendChild(navBarSectionNode);
+};
+
+document.querySelector('#navbar__list').appendChild(navBarFragment);
 
 // Add class 'active' to section when near top of viewport
-
+window.addEventListener('scroll', updateActiveSection);
 
 // Scroll to anchor ID using scrollTO event
 

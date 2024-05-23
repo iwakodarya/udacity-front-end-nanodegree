@@ -32,7 +32,7 @@ const sectionNodes = document.querySelectorAll('section');
 function isSectionTopOfViewPort(sectionElement){
     const distanceToTop = sectionElement.getBoundingClientRect().top;
 
-    if (distanceToTop >=0 & distanceToTop <= 0.25*visualViewport.height)
+    if (distanceToTop >=0 & distanceToTop <= 0.5*visualViewport.height)
         return true;
     else 
         return false;
@@ -49,6 +49,13 @@ function updateActiveSection(){
     }
 };
 
+function getSectionIDFromName(name){
+    return name.toLowerCase().split(' ').join('');
+};
+
+function scrollToSection(){
+    //scroll to section X?
+};
 
 /**
  * End Helper Functions
@@ -71,7 +78,12 @@ document.querySelector('#navbar__list').appendChild(navBarFragment);
 window.addEventListener('scroll', updateActiveSection);
 
 // Scroll to anchor ID using scrollTO event
+const navBarArea = document.getElementById('navbar__list');
 
+navBarArea.addEventListener('click', function(event){
+    const clickedSection = document.getElementById(getSectionIDFromName(event.target.innerText));
+    clickedSection.scrollIntoView({behavior: "smooth"});
+});
 
 /**
  * End Main Functions

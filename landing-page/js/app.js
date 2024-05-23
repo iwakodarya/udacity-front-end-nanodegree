@@ -1,97 +1,78 @@
-/**
- * 
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- * 
- * Dependencies: None
- * 
- * JS Version: ES2015/ES6
- * 
- * JS Standard: ESlint
- * 
-*/
-
-/**
- * Comments should be present at the beginning of each procedure and class.
- * Great to have comments before crucial code sections within the procedure.
-*/
-
-/**
- * Define Global Variables
- * 
-*/
+/* Global Variables */
 const sectionNodes = document.querySelectorAll('section');
 
+/* Helper Functions */
+
 /**
- * End Global Variables
- * Start Helper Functions
- * 
+ * @description Checks whether given section is top of viewport or not
+ * @returns Boolean, true if on top of viewport 
 */
-function isSectionTopOfViewPort(sectionElement){
+function isSectionTopOfViewPort(sectionElement) {
     const box = sectionElement.getBoundingClientRect();
 
     if (box.top <= 150 && box.bottom >= 150)
         return true;
-    else 
+    else
         return false;
+}; 
+
+/**
+ * @description Scrolls to section clicked by the user in the nav bar
+*/
+function scrollSectionIntoView(navSectionNode) {
+    // Identify the clicked section based on id of the target node
+    const clickedSection = document.getElementById(navSectionNode.id.replace('nav__', ''));
+    // Scroll to clicked section
+    clickedSection.scrollIntoView({ behavior: "smooth" });
 };
 
-function getSectionIDFromName(name){
-    return name.toLowerCase().split(' ').join('');
+/* Main Functions */
+
+/** 
+ * @description Creates dynamic navigation bar in the header
+*/
+function createNavigationBar(){
+    const navBarFragment = document.createDocumentFragment();
+
+    for (node of sectionNodes) {
+        const navBarSectionNode = document.createElement('li');
+        navBarSectionNode.innerHTML = node.dataset.nav;
+        navBarSectionNode.classList.add('menu__link');
+        navBarSectionNode.id = 'nav__' + node.id;
+        navBarFragment.appendChild(navBarSectionNode);
+    };
+    
+    document.querySelector('#navbar__list').appendChild(navBarFragment);
 };
 
 /**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-
-// build the nav
-
-
-// Add class 'active' to section when near top of viewport
-function updateActiveSection(){
-    //loop over sections and update classes as needed 
-    for (node of sectionNodes){
-        if (isSectionTopOfViewPort(node)){
+ * @description Adds a class 'active-section' to the section in the top of viewport
+*/ 
+function updateActiveSection() {
+    for (node of sectionNodes) {
+        let activeNavSection = document.getElementById('nav__' + node.id);
+        if (isSectionTopOfViewPort(node)) {
             node.classList.add('active-section');
+            activeNavSection.classList.add('active-section');
         }
-        else
+        else {
             node.classList.remove('active-section');
+            activeNavSection.classList.remove('active-section');
+        }
     }
 };
 
-// Scroll to anchor ID using scrollTO event
+// Functionality to dynamically create the navigation bar in the header
+createNavigationBar();
 
-
-/**
- * End Main Functions
- * Begin Events
- * 
-*/
-
-// Build menu 
-const navBarFragment = document.createDocumentFragment();
-
-for (node of sectionNodes){
-    const navBarSectionNode = document.createElement('li');
-    navBarSectionNode.innerText = node.dataset.nav;
-    navBarSectionNode.id = 'nav__' + node.id;
-    navBarFragment.appendChild(navBarSectionNode);
-};
-
-document.querySelector('#navbar__list').appendChild(navBarFragment);
-
-// Scroll to section on link click
+// Functionality for clicking to scroll to a given a section
 const navBarArea = document.getElementById('navbar__list');
 
-navBarArea.addEventListener('click', function(event){
-    const clickedSection = document.getElementById(event.target.id.replace('nav__', ''));
-    clickedSection.scrollIntoView({behavior: "smooth"});
+navBarArea.addEventListener('click', function (event) {
+    event.preventDefault();
+    scrollSectionIntoView(event.target);
 });
 
-// Set sections as active
+// Functionality for updating styling on active section
 window.addEventListener('scroll', updateActiveSection);
 

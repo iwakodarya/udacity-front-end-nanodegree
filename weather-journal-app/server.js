@@ -1,5 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+projectData = { entries: [] };
 
 // Require Express to run server and routes
 const express = require('express');
@@ -23,4 +23,12 @@ app.use(express.static('website'));
 // Setup Server
 const port = 3000;
 
-app.listen(port, ()=>{console.log(`Listening at port: ${port}`)});
+app.listen(port, () => { console.log(`Listening at port: ${port}`) });
+
+// Route to return all journal entries (projectData object)
+app.get('/all', (req, res) => res.send(projectData));
+
+// Route to add a journal entry into projectData
+app.post('/addEntry', (req, res) => {
+    projectData.entries.push(req.body);
+});

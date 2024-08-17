@@ -1,11 +1,11 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = { entries: [] };
+const projectData = { entries: [] };
 
 // Require Express to run server and routes
 const express = require('express');
 
 // Start up an instance of app
-app = express();
+const app = express();
 
 /* Middleware*/
 //Here we are configuring express to use body-parser as middle-ware.
@@ -31,4 +31,5 @@ app.get('/all', (req, res) => res.send(projectData));
 // Route to add a journal entry into projectData
 app.post('/addEntry', (req, res) => {
     projectData.entries.push(req.body);
+    res.send(projectData.entries.slice(-1)[0]);
 });

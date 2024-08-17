@@ -4,13 +4,17 @@ const OPEN_WEATHER_MAP_BASE_URL = 'https://api.openweathermap.org/data/2.5/weath
 
 async function getCurrentWeather(base_url, zip, api_key) {
     const response = await fetch(base_url + api_key + '&zip=' + zip);
-
+    
+    // Checking if response is valid, throwing explicit error if invalid
+    // Noting .json() will still work fine on invalid response
     try {
-        const weatherInfo = await response.json()
-        return weatherInfo;
+        if (!response.ok) 
+            throw new Error("Invalid response.")
+        return await response.json();
     }
-    catch (error) {
-        console.log(`Error at getCurrentWeather():: ${error}`);
+    catch(err) {
+        console.log(`Error gettiing weather data:: ${err}`)
+        alert("Something isn't right. Make sure the zipcode is valid.")
     }
 };
 
@@ -23,20 +27,39 @@ async function postData(path, data) {
     });
 
     try {
-        const newData = response.json();
-        return newData;
+        return await response.json();
     }
     catch (error) {
         console.log(`Error at postData():: ${error}`);
     }
 };
 
-function displayMostRecentEntry(data) {
-    document.getElementById('entryHolder').innerHTML = 
-    `
-        <div>${data.date}: ${data.temperature}F</div>
-        <div id="response">${data.response}</div>
-    `
+async function getAllData(path) {
+    const response = await fetch('/all');
+
+    try {
+        return response.json();
+    }
+    catch (error) {
+        console.log(`Error getting data:: ${error}`)
+    }
+};
+
+function displayMostRecentEntry(entriesArray) {
+    const entryHolderElem = document.getElementById('entryHolder');
+    // Remove current shown entries first
+    entryHolderElem.innerHTML = '';
+    // Populate with latest entries
+    entriesArray.forEach(entry => {
+        const entryDiv = document.createElement('div');
+        entryDiv.classList.add('entry');
+        entryDiv.innerHTML =
+            `
+            <div>${entry.date}: ${entry.temperature}F</div>
+            <div id="response">${entry.response}</div>
+            `
+        entryHolderElem.appendChild(entryDiv);
+    })
 };
 
 async function generateJournalEntry() {
@@ -51,11 +74,16 @@ async function generateJournalEntry() {
 
     // Get temperature for entered zip code
     const currentWeather = await getCurrentWeather(OPEN_WEATHER_MAP_BASE_URL, inputZip, API_KEY);
+    if (!currentWeather)
+        return;
+
     const entryData = { 'date': todayDate, 'temperature': currentWeather['main']['temp'], 'response': inputResponse };
 
     // Post data and display last entry
     await postData('/addEntry', entryData)
         .catch(err => console.log(`Error posting entry:: ${err}`))
+        .then(() => getAllData('/all'))
+        .catch(err => console.log(`Error getting all entries:: ${err}`))
         .then(response => displayMostRecentEntry(response))
         .catch(err => console.log(`Error displaying last entry:: ${err}`));
 };

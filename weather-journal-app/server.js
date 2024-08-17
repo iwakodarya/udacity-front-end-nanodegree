@@ -26,10 +26,10 @@ const port = 3000;
 app.listen(port, () => { console.log(`Listening at port: ${port}`) });
 
 // Route to return all journal entries (projectData object)
-app.get('/all', (req, res) => res.send(projectData));
+app.get('/all', (req, res) => res.send(projectData.entries.reverse()));
 
 // Route to add a journal entry into projectData
 app.post('/addEntry', (req, res) => {
     projectData.entries.push(req.body);
-    res.send(projectData.entries.slice(-1)[0]);
+    res.send(projectData.entries);
 });

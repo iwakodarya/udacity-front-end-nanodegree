@@ -4,7 +4,7 @@ const OPEN_WEATHER_MAP_BASE_URL = 'https://api.openweathermap.org/data/2.5/weath
 
 async function getCurrentWeather(base_url, zip, api_key) {
     const response = await fetch(base_url + api_key + '&zip=' + zip);
-    
+
     try {
         const weatherInfo = await response.json()
         return weatherInfo;
@@ -18,7 +18,7 @@ async function postData(path, data) {
     const response = await fetch(path, {
         method: 'POST',
         //credentials: 'same-origin',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
     });
 
@@ -26,9 +26,17 @@ async function postData(path, data) {
         const newData = response.json();
         return newData;
     }
-    catch(error) {
+    catch (error) {
         console.log(`Error at postData():: ${error}`);
     }
+};
+
+function displayMostRecentEntry(data) {
+    document.getElementById('entryHolder').innerHTML = 
+    `
+        <div>${data.date}: ${data.temperature}F</div>
+        <div id="response">${data.response}</div>
+    `
 };
 
 async function generateJournalEntry() {
@@ -39,15 +47,17 @@ async function generateJournalEntry() {
 
     // Create a new date instance dynamically with JS
     const d = new Date();
-    const todayDate = (d.getMonth()+1) + '.' + d.getDate() + '.' + d.getFullYear();
+    const todayDate = (d.getMonth() + 1) + '.' + d.getDate() + '.' + d.getFullYear();
 
     // Get temperature for entered zip code
     const currentWeather = await getCurrentWeather(OPEN_WEATHER_MAP_BASE_URL, inputZip, API_KEY);
-    const entryData = {'date': todayDate, 'temperature': currentWeather['main']['temp'], 'response': inputResponse};
+    const entryData = { 'date': todayDate, 'temperature': currentWeather['main']['temp'], 'response': inputResponse };
 
-    // Post data
-    const lastPostedData = await postData('/addEntry', entryData);
-    console.log('I got', lastPostedData);
+    // Post data and display last entry
+    await postData('/addEntry', entryData)
+        .catch(err => console.log(`Error posting entry:: ${err}`))
+        .then(response => displayMostRecentEntry(response))
+        .catch(err => console.log(`Error displaying last entry:: ${err}`));
 };
 
 // Event listener for "Generate" button click

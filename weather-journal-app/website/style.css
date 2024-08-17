@@ -16,38 +16,22 @@ body{
     display: flex;
     flex-direction: column;
     align-content: flex-start;
-    gap: 10px; 
+    gap: 10px;
+    width: 50%;
 }
 
-.holder{
-
-}
-
-.entry{
-    background: rgba(59, 74, 107, .4);
+#history {
+    width: 40%;
 }
 
 #entryHolder{
-
+    background: rgba(253, 237, 91, 0.4);
+    color: grey;
+    font-size: 18px;
 }
 
-#date{
-
-}
-
-#temp{
-
-}
-
-#content{
-
-}
-
-.headline {
-
-}
-.title{
-
+#response{
+    font-style: italic;
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
@@ -64,7 +48,6 @@ input{
 }
 
 button{
-    width: 400px;
     height: 2em;
     background: #f0d43a;
     color: white;

@@ -4,15 +4,15 @@ const OPEN_WEATHER_MAP_BASE_URL = 'https://api.openweathermap.org/data/2.5/weath
 
 async function getCurrentWeather(base_url, zip, api_key) {
     const response = await fetch(base_url + api_key + '&zip=' + zip);
-    
+
     // Checking if response is valid, throwing explicit error if invalid
     // Noting .json() will still work fine on invalid response
     try {
-        if (!response.ok) 
+        if (!response.ok)
             throw new Error("Invalid response.")
         return await response.json();
     }
-    catch(err) {
+    catch (err) {
         console.log(`Error gettiing weather data:: ${err}`)
         alert("Something isn't right. Make sure the zipcode is valid.")
     }
@@ -45,7 +45,7 @@ async function getAllData(path) {
     }
 };
 
-function displayMostRecentEntry(entriesArray) {
+function displayMostRecentEntries(entriesArray) {
     const entryHolderElem = document.getElementById('entryHolder');
     // Remove current shown entries first
     entryHolderElem.innerHTML = '';
@@ -84,10 +84,19 @@ async function generateJournalEntry() {
         .catch(err => console.log(`Error posting entry:: ${err}`))
         .then(() => getAllData('/all'))
         .catch(err => console.log(`Error getting all entries:: ${err}`))
-        .then(response => displayMostRecentEntry(response))
+        .then(response => displayMostRecentEntries(response))
         .catch(err => console.log(`Error displaying last entry:: ${err}`));
 };
 
-// Event listener for "Generate" button click
+// On page load, show recent entries already in server (technically isn't required by project)
+document.addEventListener('DOMContentLoaded',
+    async () => {
+        await getAllData()
+            .then(data => displayMostRecentEntries(data))
+            .catch(err => console.log(`Error displaying past entries:: ${err}`))
+    }
+);
+
+// Event listener for "Generate" button click, initiates adding new entry
 generateButton = document.getElementById('generate');
 generateButton.addEventListener('click', generateJournalEntry);

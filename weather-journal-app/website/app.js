@@ -80,7 +80,7 @@ async function generateJournalEntry() {
     const entryData = { 'date': todayDate, 'temperature': currentWeather['main']['temp'], 'response': inputResponse };
 
     // Post data and display last entry
-    await postData('/addEntry', entryData)
+    postData('/addEntry', entryData)
         .catch(err => console.log(`Error posting entry:: ${err}`))
         .then(() => getAllData('/all'))
         .catch(err => console.log(`Error getting all entries:: ${err}`))
@@ -90,8 +90,8 @@ async function generateJournalEntry() {
 
 // On page load, show recent entries already in server (technically isn't required by project)
 document.addEventListener('DOMContentLoaded',
-    async () => {
-        await getAllData()
+    () => {
+        getAllData()
             .then(data => displayMostRecentEntries(data))
             .catch(err => console.log(`Error displaying past entries:: ${err}`))
     }

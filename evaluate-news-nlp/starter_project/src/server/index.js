@@ -15,6 +15,7 @@ app.use(express.static('dist'))
 console.log(__dirname);
 
 // Variables for url and api key
+var application_key = process.env.API_KEY;
 
 
 app.get('/', function (req, res) {

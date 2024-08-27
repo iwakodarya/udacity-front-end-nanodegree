@@ -24,8 +24,11 @@ app.get('/', function (req, res) {
 
 
 // POST Route
-
-
+app.post('/api', function (req, res) {
+    res.send('URL received for processing')
+    // TODO: Make API request using req.body 
+    // TODO: Send back a response with sentiment analysis
+});
 
 // Designates what port the app will listen to for incoming requests
 app.listen(8000, function () {

@@ -1,0 +1,16 @@
+{
+  "name": "capstone-project",
+  "version": "1.0.0",
+  "description": "Capstone project of Udacity's Front End Web Developer Nanodegree; this project is a simple travel planner app that gives the user key information for their upcoming trip such as weather.",
+  "main": "src/server/index.js",
+  "scripts": {
+    "start": "node src/server/index.js",
+    "test": "jest"
+  },
+  "author": "Darya Iwako <darya.iwako@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}

@@ -5,12 +5,17 @@
   "main": "src/server/index.js",
   "scripts": {
     "start": "node src/server/index.js",
-    "test": "jest"
+    "test": "jest",
+    "build-prod": "webpack --config webpack.prod.js",
+    "build-dev": "webpack-dev-server --config webpack.dev.js"
   },
   "author": "Darya Iwako <darya.iwako@gmail.com>",
   "license": "ISC",
   "repository": {
     "type": "git",
     "url": ""
+  },
+  "dependencies": {
+    "webpack": "^5.94.0"
   }
 }

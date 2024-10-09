@@ -1,9 +1,7 @@
-const addDestination = document.getElementById("add-destination-button");
+// Import Javascript files
+import { newTripFlow } from "./js/newTripFlow";
 
-//addDestination.addEventListener('click', (event) => {
-//    addNewDestination()
-//});
+// Import Sass files
+import './styles/main.scss'
 
-function addNewDestination() {
-
-};
+newTripFlow()

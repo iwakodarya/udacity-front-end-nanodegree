@@ -6,15 +6,28 @@
     <title>Simple Travel Planner</title>
   </head>
   <body>
-    <h1>Simple Travel Planner (Beta)</h1>
-    <form>
-        <label for="destName">Destination name: <label>
-        <input type="text" id="destName" name="destName">
-        <label for="startDate">Start date: <label>
-        <input type="date" id="startDate" name="startDate">
-        <label for="endDate">End date: <label>
-        <input type="date" id="endDate" name="endDate"><br>
-        <input type="submit" value="Add destination">
-    </form>
+    <div id="header">
+      <h1>Simple Travel Planner (Beta)</h1>
+    </div>
+    <div id="app">
+      <div id="side-panel">
+        <button id="add-trip-button" class="button">+ Add trip</button>
+      </div>
+      <div id="trip-panel"></div>
+      <div id="new-trip-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-x">&times;</span>
+          <form>
+            <label for="tripName">Trip name: </label>
+            <input type="text" id="tripName" name="tripName" placeholder="Ex: Honeymoon in Europe!">
+            <label for="startDate">Start date: </label>
+            <input type="date" id="startDate" name="startDate">
+            <label for="endDate">End date: </label>
+            <input type="date" id="endDate" name="endDate">
+            <input type="submit" value="Submit">
+          </form>
+        </div> 
+      </div>
+  </div>
   </body>
 </html>

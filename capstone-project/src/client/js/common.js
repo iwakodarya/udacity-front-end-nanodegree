@@ -2,13 +2,13 @@
 const displayBanner = (message, success = true) => {
     const banner = document.createElement('div');
     if (success) {
-        banner.classList.add('banner-success');
-    } else banner.classList.add('banner-failure');
+        banner.className = 'banner banner-success';
+    } else banner.className = 'banner banner-failure';
     banner.innerHTML = message;
-    document.body.appendChild(banner);
+    document.getElementById('header').appendChild(banner);
     setTimeout(() => {
         banner.remove();
-    }, 20000);
+    }, 2000);
 };
 
 export { displayBanner };

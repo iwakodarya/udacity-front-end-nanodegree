@@ -1,11 +1,17 @@
 .banner {
+    width: 250px;
+    text-align: center;
+    margin: auto;
+    padding: 3px;
+    border-radius: 4px;
+
     &-success {
-        color: green;
-        background-color: lightgreen;
+        color: rgb(39, 105, 39);
+        background-color: rgb(168, 231, 168);
     }
     
     &-failure {
-        color: red;
-        background-color: lightcoral; 
+        color: rgb(149, 41, 41);
+        background-color: rgb(233, 166, 166); 
     }
 }

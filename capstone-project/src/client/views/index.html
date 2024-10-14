@@ -1,38 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple Travel Planner</title>
-  </head>
-  <body>
-    <div id="header">
-      <h1>Simple Travel Planner (Beta)</h1>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Travel Planner</title>
+</head>
+
+<body>
+  <div id="header">
+    <h1>🗒 Simple Travel Planner (Beta)</h1>
+  </div>
+  <div id="app">
+    <div id="side-panel">
+      <button id="add-trip-button" class="button">+ Add trip</button>
+      <div id="trips-list"></div>
     </div>
-    <div id="app">
-      <div id="side-panel">
-        <button id="add-trip-button" class="button">+ Add trip</button>
-      </div>
-      <div id="trip-panel"></div>
-      <div id="new-trip-modal" class="modal">
-        <div class="modal-content">
-          <span class="close-x">&times;</span>
-          <form onsubmit="Client.createNewTrip(event)">
-            <label for="tripName">Trip name: </label>
-            <input
-              type="text"
-              id="tripName"
-              name="tripName"
-              placeholder="Ex: Honeymoon in Europe!"
-            />
-            <label for="startDate">Start date: </label>
-            <input type="date" id="startDate" name="startDate" />
-            <label for="endDate">End date: </label>
-            <input type="date" id="endDate" name="endDate" />
-            <input type="submit"></input>
-          </form>
-        </div>
+    <div id="trip-panel"></div>
+    <div id="new-trip-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-x">&times;</span>
+        <form onsubmit="Client.createNewTrip(event)">
+          <label for="tripName">Trip name: </label>
+          <input type="text" id="tripName" name="tripName" placeholder="Ex: Honeymoon in Europe!" required />
+          <label for="startDate">Start date: </label>
+          <input type="date" id="startDate" name="startDate" required />
+          <label for="endDate">End date: </label>
+          <input type="date" id="endDate" name="endDate" required />
+          <input type="submit">
+        </form>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

@@ -1,3 +1,5 @@
+@import './common.scss';
+
 .banner {
     width: 250px;
     text-align: center;
@@ -6,12 +8,12 @@
     border-radius: 4px;
 
     &-success {
-        color: rgb(39, 105, 39);
-        background-color: rgb(168, 231, 168);
+        color: $success-font-color;
+        background-color: $success-background-color;
     }
-    
+
     &-failure {
-        color: rgb(149, 41, 41);
-        background-color: rgb(233, 166, 166); 
+        color: $failure-font-color;
+        background-color: $failure-background-color;
     }
 }

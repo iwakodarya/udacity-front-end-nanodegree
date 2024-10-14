@@ -1,4 +1,5 @@
 import { displayBanner } from './common';
+import { displayTrips, loadTrips } from './sidePanel';
 
 const SERVER_PATH_BASE = 'http://localhost:3000';
 
@@ -43,7 +44,9 @@ const createNewTrip = async (submitEvent) => {
         }
         const responseData = await response.json();
         displayBanner(`✅ ${responseData.message}`);
+        displayTrips();
     } catch (error) {
+        console.log(`Error in createNewTrip():: ${error.message}`);
         displayBanner(`❌ Error: ${error.message}`, false);
     }
 };

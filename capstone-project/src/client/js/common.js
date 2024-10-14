@@ -1,3 +1,5 @@
+
+
 // Show a 2 second banner to the user on success or failure of action
 const displayBanner = (message, success = true) => {
     const banner = document.createElement('div');

@@ -1,5 +1,20 @@
 // Setup empty JS object to act as endpoint for all routes
-const projectData = { trips: [] };
+const projectData = {
+    trips: [
+        {
+            tripName: 'Japan',
+            startDate: '2024-12-20',
+            endDate: '2025-01-05',
+            tripId: 0
+        },
+        {
+            tripName: 'France',
+            startDate: '2022-11-01',
+            endDate: '2022-11-30',
+            tripId: 1
+        },
+    ]
+};
 
 // Require Express to run server and routes
 const express = require('express');
@@ -23,9 +38,9 @@ app.use(express.static('client'));
 
 // Create new trip
 app.post('/addnewtrip', (req, res) => {
-    // generate trip id for new trips, use consequent numbers
     try {
         const tripData = req.body;
+        // generate trip id for new trips, use consequent numbers
         if (projectData.trips.length > 0) {
             tripData.tripId =
                 Math.max(...projectData.trips.map((trip) => trip.tripId)) + 1;
@@ -33,11 +48,20 @@ app.post('/addnewtrip', (req, res) => {
             tripData.tripId = 0;
         }
         projectData.trips.push(tripData);
-        res.status(200).json({message: 'Trip created successfully.'});
+        res.status(200).json({ message: 'Trip created successfully.' });
         // temp -
         console.log('data receieved: ', tripData);
     } catch (error) {
-        res.status(500).json({message: 'Failed to create a trip.'})
+        res.status(500).json({ message: 'Failed to create a trip.' });
+    }
+});
+
+// Get list of existing trips (basic info only)
+app.get('/loadtrips', (req, res) => {
+    try {
+        res.send(projectData.trips);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to list existing trips.' });
     }
 });
 

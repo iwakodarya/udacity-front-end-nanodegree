@@ -1,0 +1,24 @@
+#side-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    max-width: 300px;
+    min-height: 100%;
+    border: 1px solid grey;
+}
+
+#trips-list {
+    width: 95%;
+}
+
+.trip-button {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    border: 1px solid grey;
+
+    & * {
+        margin: 10px;
+    }
+}

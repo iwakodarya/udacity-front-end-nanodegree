@@ -1,0 +1,11 @@
+.button {
+    font-size: 16px;
+    padding: 5px;
+    margin: 10px;
+    text-align: center;
+    
+    &#add-trip-button {
+        width: 70%;
+        background-color: cornflowerblue;
+    }
+}

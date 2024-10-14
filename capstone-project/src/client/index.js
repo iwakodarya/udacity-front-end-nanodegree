@@ -1,7 +1,10 @@
 // Import Javascript files
-import { newTripFlow } from "./js/newTripFlow";
+import { newTripEventsSetUp, createNewTrip } from "./js/newTripFlow";
 
 // Import Sass files
 import './styles/main.scss'
+import './styles/banners.scss'
 
-newTripFlow()
+newTripEventsSetUp()
+
+export { createNewTrip }

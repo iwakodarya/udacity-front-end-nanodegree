@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simple Travel Planner</title>
   </head>
   <body>
@@ -17,17 +17,22 @@
       <div id="new-trip-modal" class="modal">
         <div class="modal-content">
           <span class="close-x">&times;</span>
-          <form>
+          <form onsubmit="Client.createNewTrip(event)">
             <label for="tripName">Trip name: </label>
-            <input type="text" id="tripName" name="tripName" placeholder="Ex: Honeymoon in Europe!">
+            <input
+              type="text"
+              id="tripName"
+              name="tripName"
+              placeholder="Ex: Honeymoon in Europe!"
+            />
             <label for="startDate">Start date: </label>
-            <input type="date" id="startDate" name="startDate">
+            <input type="date" id="startDate" name="startDate" />
             <label for="endDate">End date: </label>
-            <input type="date" id="endDate" name="endDate">
-            <input type="submit" value="Submit">
+            <input type="date" id="endDate" name="endDate" />
+            <input type="submit"></input>
           </form>
-        </div> 
+        </div>
       </div>
-  </div>
+    </div>
   </body>
 </html>

@@ -1,0 +1,11 @@
+.banner {
+    &-success {
+        color: green;
+        background-color: lightgreen;
+    }
+    
+    &-failure {
+        color: red;
+        background-color: lightcoral; 
+    }
+}

@@ -20,7 +20,7 @@ async function displayTrips() {
     for (const trip of trips) {
         const tripButton = document.createElement('div');
         tripButton.classList.add('trip-button');
-        tripButton.setAttribute('data-trip-id', trip.tripId);
+        tripButton.setAttribute('data-tripid', trip.tripId);
         tripButton.innerHTML = `
             <h3>${trip.tripName}</h3>
             <p>🗓 ${trip.startDate}</p>
@@ -32,6 +32,15 @@ async function displayTrips() {
 
     sidePanelTripsList.appendChild(upcomingTripsDiv);
     sidePanelTripsList.appendChild(pastTripsDiv);
+
+    // add click event
+    sidePanelTripsList.addEventListener('click', (event) => {
+        const tripButton = event.target.closest('.trip-button');
+        if (tripButton) {
+            const tripId = tripButton.dataset.tripid;
+            console.log('Trip ID ', tripId)
+        }
+    })
 }
 
 async function getAllTrips() {

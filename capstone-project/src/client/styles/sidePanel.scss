@@ -1,3 +1,5 @@
+@import './common.scss';
+
 #side-panel {
     display: flex;
     flex-direction: column;
@@ -5,20 +7,26 @@
     width: 25%;
     max-width: 300px;
     min-height: 100%;
-    border: 1px solid grey;
+    border-right: 3px solid lightgrey;
 }
 
 #trips-list {
-    width: 95%;
+    width: 90%;
 }
 
 .trip-button {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
-    border: 1px solid grey;
+    border: 1px solid lightgrey;
+    border-radius: $border-radius-app;
 
     & * {
         margin: 10px;
+    }
+
+    &:hover {
+        background-color: lightgrey;
+        cursor: pointer;
     }
 }

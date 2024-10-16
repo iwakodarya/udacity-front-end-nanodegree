@@ -1,13 +1,19 @@
+@import './common.scss';
+
+#header {
+    font-family: $header-font-handwritten;
+}
+
 #app {
     display: flex;
     min-height: 400px;
+    font-family: $body-font;
 }
 
 #trip-panel {
     width: 75%;
     max-width: 900px;
     min-height: 100%;
-    border: 1px solid grey;
 }
 
 /* Modal background */

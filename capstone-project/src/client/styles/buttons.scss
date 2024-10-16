@@ -1,11 +1,16 @@
+@import './common.scss';
+
 .button {
-    font-size: 16px;
+    font-size: 18px;
+    font-family: $body-font;
+    border: none;
+    border-radius: $border-radius-app;
     padding: 5px;
     margin: 10px;
     text-align: center;
     
     &#add-trip-button {
         width: 70%;
-        background-color: cornflowerblue;
+        background-color: lightblue;
     }
 }

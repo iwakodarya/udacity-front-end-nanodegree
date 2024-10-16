@@ -4,3 +4,12 @@ $success-font-color: rgb(39, 105, 39);
 $failure-background-color: rgb(233, 166, 166);
 $failure-font-color: rgb(149, 41, 41);
 
+// FONTS
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Shadows+Into+Light+Two&display=swap');
+
+$body-font: "Afacad Flux", sans-serif;
+$header-font-handwritten: "Shadows Into Light Two", sans-serif;
+
+// OTHER
+
+$border-radius-app: 4px;

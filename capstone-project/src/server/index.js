@@ -19,6 +19,7 @@ const projectData = {
 // Import libraries
 import express, { urlencoded, json, static as expressStatic } from 'express';
 import fetch from 'node-fetch';
+import dotenv from 'dotenv';
 
 // Start up an instance of app
 const app = express();
@@ -35,6 +36,10 @@ app.use(cors());
 
 // Initialize the main project folder
 app.use(expressStatic('client'));
+
+// Set up .env config 
+dotenv.config()
+const GEONAMES_API_USERNAME = process.env.GEO_NAMES_USERNAME;
 
 // Create new trip
 app.post('/addnewtrip', (req, res) => {
@@ -89,7 +94,7 @@ app.get('/trip/:tripId', (req, res) => {
 app.get('/places-search/:startsWith', async (req, res) => {
     try {
         const response = await fetch(
-            'http://api.geonames.org/postalCodeSearchJSON?username=iwakodarya&placename_startsWith=' +
+            `http://api.geonames.org/postalCodeSearchJSON?username=${GEONAMES_API_USERNAME}&placename_startsWith=` +
                 req.params.startsWith
         );
         const placesList = await response.json();

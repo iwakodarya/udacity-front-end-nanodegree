@@ -37,8 +37,8 @@ app.use(cors());
 // Initialize the main project folder
 app.use(expressStatic('client'));
 
-// Set up .env config 
-dotenv.config()
+// Set up .env config
+dotenv.config();
 const GEONAMES_API_USERNAME = process.env.GEO_NAMES_USERNAME;
 
 // Create new trip
@@ -83,7 +83,9 @@ app.get('/loadtrips', (req, res) => {
 app.get('/trip/:tripId', (req, res) => {
     try {
         res.send(
-            projectData.trips.filter((trip) => trip.tripId == req.params.tripId)[0]
+            projectData.trips.filter(
+                (trip) => trip.tripId == req.params.tripId
+            )[0]
         );
     } catch (error) {
         res.status(500).json({ message: 'Failed to get trip information.' });
@@ -94,10 +96,16 @@ app.get('/trip/:tripId', (req, res) => {
 app.get('/places-search/:startsWith', async (req, res) => {
     try {
         const response = await fetch(
-            `http://api.geonames.org/postalCodeSearchJSON?username=${GEONAMES_API_USERNAME}&placename_startsWith=` +
-                req.params.startsWith
+            `http://api.geonames.org/searchJSON?` +
+            `username=${GEONAMES_API_USERNAME}` +
+            `&featureclass=P` +
+            `&cities=cities15000` +
+            `&maxRows=10` +
+            `&name_startsWith=` + req.params.startsWith
         );
         const placesList = await response.json();
+        // Sort by population
+        placesList.geonames.sort((cityA,cityB) => (cityB.population - cityA.population));
         res.send(placesList);
     } catch (error) {
         res.status(500).json({

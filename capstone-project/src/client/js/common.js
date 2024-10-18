@@ -1,3 +1,5 @@
+export const SERVER_PATH_BASE = 'http://localhost:3000';
+
 // Set up event listeners for given modalId
 const setUpInputModal = (triggerButtonId, modalId, submitCallback) => {
     const triggerButton = document.getElementById(triggerButtonId);
@@ -37,4 +39,4 @@ const displayBanner = (message, success = true) => {
     }, 2000);
 };
 
-export { setUpInputModal, displayBanner };
+export { setUpInputModal, displayBanner  };

@@ -16,4 +16,3 @@ displayTrips();
 setUpInputModal('add-trip-button', 'new-trip-modal', createNewTrip);
 setUpInputModal('add-destination-button', 'new-destination-modal', addDestination);
 
-export { createNewTrip };

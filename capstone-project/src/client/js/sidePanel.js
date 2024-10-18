@@ -1,6 +1,5 @@
-import { loadTrip } from './tripView.js';
-
-const SERVER_PATH_BASE = 'http://localhost:3000';
+import { viewTrip } from './tripView.js';
+import { SERVER_PATH_BASE } from './common.js';
 
 const sidePanelTripsList = document.getElementById('trips-list');
 
@@ -9,7 +8,7 @@ sidePanelTripsList.addEventListener('click', (event) => {
     const tripButton = event.target.closest('.trip-button');
     if (tripButton) {
         const tripId = tripButton.dataset.tripid;
-        loadTrip(tripId);
+        viewTrip(tripId);
     }
 });
 

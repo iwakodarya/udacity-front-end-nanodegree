@@ -1,10 +1,10 @@
-const SERVER_PATH_BASE = 'http://localhost:3000';
+import { SERVER_PATH_BASE } from './common.js';
 
 async function loadTrip(tripId) {
     try {
         const response = await fetch(SERVER_PATH_BASE + '/trip/' + tripId);
         const responseData = await response.json();
-        viewTrip(responseData);
+        return responseData;
     } catch (error) {
         console.log(`Error in loadTrip():: ${error.message}`);
     }
@@ -15,7 +15,8 @@ function addDestination() {
     console.log('add destination flow started');
 }
 
-function viewTrip(tripData) {
+async function viewTrip(tripId) {
+    const tripData = await loadTrip(tripId);
     console.log(tripData);
     // TODO: this function will load all the details for a trip
     const tripHeader = document.getElementById('trip-header');
@@ -28,4 +29,4 @@ function viewTrip(tripData) {
     document.getElementById('trip-actions').style.display = 'block';
 }
 
-export { loadTrip, addDestination };
+export { addDestination, viewTrip };

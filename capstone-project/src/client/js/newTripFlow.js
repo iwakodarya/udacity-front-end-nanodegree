@@ -1,7 +1,5 @@
-import { displayBanner } from './common.js';
+import { displayBanner, SERVER_PATH_BASE } from './common.js';
 import { displayTrips } from './sidePanel.js';
-
-const SERVER_PATH_BASE = 'http://localhost:3000';
 
 
 const createNewTrip = async (submitEvent) => {

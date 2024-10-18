@@ -12,13 +12,13 @@ const projectData = {
             startDate: '2022-11-01',
             endDate: '2022-11-30',
             tripId: 1
-        },
+        }
     ]
 };
 
-// Require Express to run server and routes
-const express = require('express');
-//const fetch = require("node-fetch");
+// Import libraries
+import express, { urlencoded, json, static as expressStatic } from 'express';
+import fetch from 'node-fetch';
 
 // Start up an instance of app
 const app = express();
@@ -26,15 +26,15 @@ const app = express();
 /* Middleware*/
 //Here we are configuring express to use body-parser as middle-ware.
 //const bodyParser = require('body-parser');
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(urlencoded({ extended: false }));
+app.use(json());
 
 // Cors for cross origin allowance
-const cors = require('cors');
+import cors from 'cors';
 app.use(cors());
 
 // Initialize the main project folder
-app.use(express.static('client'));
+app.use(expressStatic('client'));
 
 // Create new trip
 app.post('/addnewtrip', (req, res) => {
@@ -59,9 +59,45 @@ app.post('/addnewtrip', (req, res) => {
 // Get list of existing trips (basic info only)
 app.get('/loadtrips', (req, res) => {
     try {
-        res.send(projectData.trips);
+        res.send(
+            projectData.trips.map((trip) => {
+                return {
+                    tripName: trip.tripName,
+                    startDate: trip.startDate,
+                    endDate: trip.endDate,
+                    tripId: trip.tripId
+                };
+            })
+        );
     } catch (error) {
         res.status(500).json({ message: 'Failed to list existing trips.' });
+    }
+});
+
+// Get all details for a given trip id
+app.get('/trip/:tripId', (req, res) => {
+    try {
+        res.send(
+            projectData.trips.filter((trip) => trip.tripId == req.params.tripId)[0]
+        );
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to get trip information.' });
+    }
+});
+
+// Get place name suggestions while the user types
+app.get('/places-search/:startsWith', async (req, res) => {
+    try {
+        const response = await fetch(
+            'http://api.geonames.org/postalCodeSearchJSON?username=iwakodarya&placename_startsWith=' +
+                req.params.startsWith
+        );
+        const placesList = await response.json();
+        res.send(placesList);
+    } catch (error) {
+        res.status(500).json({
+            message: 'Server failed to get place search suggestions: ' + error
+        });
     }
 });
 

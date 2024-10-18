@@ -1,8 +1,20 @@
+import { loadTrip } from './tripView.js';
+
 const SERVER_PATH_BASE = 'http://localhost:3000';
+
+const sidePanelTripsList = document.getElementById('trips-list');
+
+// add click event
+sidePanelTripsList.addEventListener('click', (event) => {
+    const tripButton = event.target.closest('.trip-button');
+    if (tripButton) {
+        const tripId = tripButton.dataset.tripid;
+        loadTrip(tripId);
+    }
+});
 
 async function displayTrips() {
     const trips = await getAllTrips();
-    const sidePanelTripsList = document.getElementById('trips-list');
     sidePanelTripsList.innerHTML = '';
 
     // Upcoming
@@ -32,15 +44,6 @@ async function displayTrips() {
 
     sidePanelTripsList.appendChild(upcomingTripsDiv);
     sidePanelTripsList.appendChild(pastTripsDiv);
-
-    // add click event
-    sidePanelTripsList.addEventListener('click', (event) => {
-        const tripButton = event.target.closest('.trip-button');
-        if (tripButton) {
-            const tripId = tripButton.dataset.tripid;
-            console.log('Trip ID ', tripId)
-        }
-    })
 }
 
 async function getAllTrips() {

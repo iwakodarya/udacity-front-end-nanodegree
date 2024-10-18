@@ -11,5 +11,9 @@ $body-font: "Afacad Flux", sans-serif;
 $header-font-handwritten: "Shadows Into Light Two", sans-serif;
 
 // OTHER
-
 $border-radius-app: 4px;
+
+@mixin grey-rounded-border {
+    border-radius: $border-radius-app;
+    border: 1px solid lightgrey;
+}

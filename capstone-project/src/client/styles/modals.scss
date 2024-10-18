@@ -1,0 +1,52 @@
+@import './common.scss';
+
+/* MODAL STYLING */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    width: 50%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+}
+
+.close-x {
+    float: right;
+    text-align: right;
+    color: grey;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.close-x:hover,
+.close-x:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+label {
+    font-size: 18px;
+}
+
+input {
+    @include grey-rounded-border;
+    font-size: 14px;
+    margin: 5px;
+    padding: 5px;
+}
+
+input[type=text] {
+    width: 95%;
+}

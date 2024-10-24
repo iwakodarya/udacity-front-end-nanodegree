@@ -10,11 +10,6 @@ async function loadTrip(tripId) {
     }
 }
 
-function addDestination() {
-    // pop up a section for search and add destination
-    console.log('add destination flow started');
-}
-
 async function viewTrip(tripId) {
     const tripData = await loadTrip(tripId);
     console.log(tripData);
@@ -29,4 +24,4 @@ async function viewTrip(tripId) {
     document.getElementById('trip-actions').style.display = 'block';
 }
 
-export { addDestination, viewTrip };
+export { viewTrip };

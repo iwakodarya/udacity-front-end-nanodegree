@@ -1,5 +1,5 @@
 import { viewTrip } from './tripView.js';
-import { SERVER_PATH_BASE } from './common.js';
+import { SERVER_PATH_BASE, state } from './common.js';
 
 const sidePanelTripsList = document.getElementById('trips-list');
 
@@ -8,7 +8,8 @@ sidePanelTripsList.addEventListener('click', (event) => {
     const tripButton = event.target.closest('.trip-button');
     if (tripButton) {
         const tripId = tripButton.dataset.tripid;
-        viewTrip(tripId);
+        state.selectedTripId = tripId;
+        viewTrip(state.selectedTripId);
     }
 });
 

@@ -103,9 +103,12 @@ app.get('/places-search/:startsWith', async (req, res) => {
             `&maxRows=10` +
             `&name_startsWith=` + req.params.startsWith
         );
-        const placesList = await response.json();
+        const responseJson = await response.json();
+        const placesList = responseJson.geonames;
         // Sort by population
-        placesList.geonames.sort((cityA,cityB) => (cityB.population - cityA.population));
+        placesList.sort((cityA,cityB) => (cityB.population - cityA.population));
+        // Add user facing name
+        placesList.forEach(place => place.displayName = `${place.name}, ${place.countryName}`)
         res.send(placesList);
     } catch (error) {
         res.status(500).json({

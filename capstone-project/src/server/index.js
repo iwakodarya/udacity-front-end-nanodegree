@@ -115,7 +115,7 @@ app.get('/places-search/:startsWith', async (req, res) => {
         // Add user facing name
         placesList.forEach(
             (place) =>
-                (place.displayName = `${place.name}, ${place.countryName}`)
+                (place.displayName = `${place.name}, ${place.countryCode}`)
         );
         res.send(placesList);
     } catch (error) {
@@ -125,25 +125,64 @@ app.get('/places-search/:startsWith', async (req, res) => {
     }
 });
 
+// get lat and lng for location
+app.get('/get-coordinates/:name/:countryCode', async (req, res) => {
+    try {
+        const response = await fetch(
+            `http://api.geonames.org/searchJSON?` +
+                `username=${GEONAMES_API_USERNAME}` +
+                `&featureclass=P` +
+                `&cities=cities15000` +
+                `&maxRows=10` +
+                `&name_equals=` +
+                req.params.name +
+                `&country=` +
+                req.params.countryCode
+        );
+        const responseJson = await response.json();
+        const placesList = responseJson.geonames;
+        // Sort by population
+        placesList.sort((cityA, cityB) => cityB.population - cityA.population);
+        const selectedPlace = placesList[0]; //use first match with highest population
+
+        res.send({ lat: selectedPlace.lat, lng: selectedPlace.lng });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Server failed to get lat/lng for destName: ' + error
+        });
+    }
+});
+
 // Add destination to trip
 app.post('/add-destination-to-trip/:tripId', async (req, res) => {
     try {
-        // get weather forecast for location
+        // get lat and lng for location
+        const placeCoord = await fetch(
+            `http://localhost:3000/get-coordinates/` +
+                `${req.body.destName.replace(' ', '').split(',')[0]}/` +
+                `${req.body.destName.replace(' ', '').split(',')[1]}`
+        );
+        const placeCoordJSON = await placeCoord.json();
+        const { lat, lng } = placeCoordJSON;
+
+        // get weather forecast for location given lat/lng above
         const response = await fetch(
             `https://api.weatherbit.io/v2.0/forecast/daily?` +
                 `key=${WEATHERBIT_API_KEY}` +
-                `&lat=${req.body.lat}` +
-                `&lon=${req.body.lng}`
+                `&lat=${lat}` +
+                `&lon=${lng}`
         );
         const responseJson = await response.json();
         const weatherForecast = responseJson.data.map((forecast) => {
             return { date: forecast.valid_date, temp: forecast.temp };
         });
         const destInfo = req.body;
+        destInfo.lat = lat;
+        destInfo.lng = lng;
         destInfo.weatherForecast = weatherForecast;
 
         const activeTrip = projectData.trips.find(
-            (trip) => (trip.tripId = req.params.tripId)
+            (trip) => (trip.tripId == req.params.tripId)
         );
         activeTrip.destinations.push(destInfo);
 

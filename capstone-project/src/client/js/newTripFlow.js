@@ -45,8 +45,8 @@ async function getCityListMatch(searchStr) {
         const response = await fetch(
             SERVER_PATH_BASE + '/places-search/' + searchStr
         );
-        state.destSuggestionsList = await response.json();
-        displayCityList(state.destSuggestionsList);
+        const placesList = await response.json();
+        displayCityList(placesList);
     } catch (error) {
         displayNoCitiesFound();
     }
@@ -73,14 +73,6 @@ async function addDestination(submitEvent) {
     // process submit event
     const formData = new FormData(submitEvent.target);
     const destData = Object.fromEntries(formData);
-
-    // get lat,lng from state
-    destData.lat = state.destSuggestionsList.filter(
-        (city) => city.displayName == destData.destName
-    )[0].lat;
-    destData.lng = state.destSuggestionsList.filter(
-        (city) => city.displayName == destData.destName
-    )[0].lng;
 
     // post data
     try {

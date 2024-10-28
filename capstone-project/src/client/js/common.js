@@ -3,8 +3,7 @@ import { handleCitySearch } from './newTripFlow.js';
 export const SERVER_PATH_BASE = 'http://localhost:3000';
 
 export const state = {
-    selectedTripId: '',
-    destSuggestionsList: '',
+    selectedTripId: ''
 }
 
 // Set up event listeners for given modalId

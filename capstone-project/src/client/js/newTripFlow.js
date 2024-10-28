@@ -13,10 +13,13 @@ async function createNewTrip(submitEvent) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(tripInfo)
         });
-        if (!response.ok) {
-            throw new Error(`Error in createNewTrip():: ${response.error}`);
-        }
+
         const responseData = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`${response.status} server response in addDestination():: ${responseData.message}`);
+        }
+        
         displayBanner(`✅ ${responseData.message}`);
         displayTrips();
     } catch (error) {
@@ -61,8 +64,8 @@ function displayCityList(cityList) {
 }
 
 function displayNoCitiesFound() {
-    const suggestions = document.getElementById('city-suggestions-list')
-    suggestions.innerHTML = 'No cities found.'
+    const suggestions = document.getElementById('city-suggestions-list');
+    suggestions.innerHTML = 'No cities found.';
 }
 
 async function addDestination(submitEvent) {
@@ -72,11 +75,36 @@ async function addDestination(submitEvent) {
     const destData = Object.fromEntries(formData);
 
     // get lat,lng from state
-    destData.lat = state.destSuggestionsList.filter(city => city.displayName == destData.destName)[0].lat;
-    destData.lng = state.destSuggestionsList.filter(city => city.displayName == destData.destName)[0].lng;
+    destData.lat = state.destSuggestionsList.filter(
+        (city) => city.displayName == destData.destName
+    )[0].lat;
+    destData.lng = state.destSuggestionsList.filter(
+        (city) => city.displayName == destData.destName
+    )[0].lng;
 
-    console.log(destData);
-    // TO DO: add data to selected trip Ids server side object
+    // post data
+    try {
+        const response = await fetch(
+            SERVER_PATH_BASE +
+                '/add-destination-to-trip/' +
+                state.selectedTripId,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(destData)
+            }
+        );
+        const responseData = await response.json();
+
+        if (!response.ok) {  
+            throw new Error(`${response.status} server response in addDestination():: ${responseData.message}`);
+        }
+
+        displayBanner(`✅ ${responseData.message}`);
+    } catch (error) {
+        console.log(`Error in addDestination():: ${error.message}`);
+        displayBanner(`❌ Error: ${error.message}`, false);
+    }
 }
 
 export { createNewTrip, addDestination, handleCitySearch };

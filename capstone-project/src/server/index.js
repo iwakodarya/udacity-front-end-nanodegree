@@ -43,6 +43,7 @@ app.use(expressStatic('client'));
 dotenv.config();
 const GEONAMES_API_USERNAME = process.env.GEO_NAMES_USERNAME;
 const WEATHERBIT_API_KEY = process.env.WEATHERBIT_API_KEY;
+const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
 
 // Create new trip
 app.post('/addnewtrip', (req, res) => {
@@ -181,8 +182,18 @@ app.post('/add-destination-to-trip/:tripId', async (req, res) => {
         destInfo.lng = lng;
         destInfo.weatherForecast = weatherForecast;
 
+        // get photo for destination; add to destInfo
+        const destImg = await fetch(`http://localhost:3000/get-image/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ searchStr: req.body.destName })
+        });
+        const destImgJSON = await destImg.json();
+        destInfo.img = destImgJSON.imageURL;
+
+        // add destination to trip
         const activeTrip = projectData.trips.find(
-            (trip) => (trip.tripId == req.params.tripId)
+            (trip) => trip.tripId == req.params.tripId
         );
         activeTrip.destinations.push(destInfo);
 
@@ -191,6 +202,33 @@ app.post('/add-destination-to-trip/:tripId', async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Server failed to add destination to trip: ' + error
+        });
+    }
+});
+
+// Pull image for given destination
+app.post('/get-image', async (req, res) => {
+    // call pixabay API to get image link
+    // store image link in projectData
+    try {
+        const response = await fetch(
+            `https://pixabay.com/api/?` +
+                `key=${PIXABAY_API_KEY}` +
+                `&q=${encodeURIComponent(req.body.searchStr)}` +
+                `&image_type=photo` +
+                `&category=travel` +
+                `&orientation=horizontal`
+        );
+        const responseJSON = await response.json();
+        // sort by views pick one with most views
+        const hits = responseJSON.hits;
+        const sortedByViewCnt = hits.sort(
+            (ImgA, ImgB) => ImgA.views - ImgB.views
+        );
+        res.send({ imageURL: sortedByViewCnt[0].webformatURL });
+    } catch (error) {
+        res.status(500).json({
+            message: `Error in /get-image :: ${error.message}`
         });
     }
 });

@@ -27,6 +27,9 @@
 .destination {
     @include grey-rounded-border;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
     img {
         min-width: 100px;
@@ -37,8 +40,20 @@
         display: flex;
         align-items: start;
         justify-content: space-between;
+        margin-bottom: 15px;
 
         h2 {
+            margin-top: 0px;
+        }
+    }
+
+    .dest-day-view {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        @include grey-rounded-border;
+
+        h4 {
             margin-top: 0px;
         }
     }

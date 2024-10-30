@@ -46,7 +46,39 @@ async function viewDestination(destination) {
     destDiv.appendChild(destHeader);
 
     // Daily view with forecast
-    // TODO
+    // Create a day card for each date from start to end date
+    // Create a date range
+    const destDays = [];
+    const end = new Date(destination.endDate);
+    let curr = new Date(destination.startDate);
+
+    console.log(`start: ${curr}, end: ${end}`);
+
+    while (curr <= end) {
+        destDays.push(new Date(curr));
+        curr.setDate(curr.getDate() + 1);
+    }
+    console.log(`date range = `, destDays);
+
+    destDays.forEach((day, index) => {
+        const destDay = document.createElement('div');
+        destDay.classList.add('dest-day-view');
+        const date = document.createElement('h4');
+        date.innerHTML = `Day ${index+1}: ${day.toLocaleDateString('en-US', { timeZone: 'UTC'})}`;
+        destDay.appendChild(date);
+
+        // Add forecast weather if available
+        const forecast = destination.weatherForecast.find(
+            (forecast) => forecast.date == day.toISOString().slice(0, 10)
+        );
+        const forecastDiv = document.createElement('div');
+        if (forecast) {
+            forecastDiv.innerHTML = `Forecast: ${forecast.temp}C`;
+        } else forecastDiv.innerHTML = 'Forecast not available.';
+        destDay.appendChild(forecastDiv);
+
+        destDiv.appendChild(destDay);
+    });
 
     // Append to main div
     const tripDetails = document.getElementById('trip-details');

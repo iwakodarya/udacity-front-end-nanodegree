@@ -127,7 +127,7 @@ app.get('/places-search/:startsWith', async (req, res) => {
 });
 
 // get lat and lng for location
-app.get('/get-coordinates/:name/:countryCode', async (req, res) => {
+app.post('/get-coordinates', async (req, res) => {
     try {
         const response = await fetch(
             `http://api.geonames.org/searchJSON?` +
@@ -136,9 +136,9 @@ app.get('/get-coordinates/:name/:countryCode', async (req, res) => {
                 `&cities=cities15000` +
                 `&maxRows=10` +
                 `&name_equals=` +
-                req.params.name +
+                encodeURIComponent(req.body.name) +
                 `&country=` +
-                req.params.countryCode
+                encodeURIComponent(req.body.countryCode)
         );
         const responseJson = await response.json();
         const placesList = responseJson.geonames;
@@ -157,11 +157,18 @@ app.get('/get-coordinates/:name/:countryCode', async (req, res) => {
 // Add destination to trip
 app.post('/add-destination-to-trip/:tripId', async (req, res) => {
     try {
+        console.log(projectData);
         // get lat and lng for location
         const placeCoord = await fetch(
-            `http://localhost:3000/get-coordinates/` +
-                `${req.body.destName.replace(' ', '').split(',')[0]}/` +
-                `${req.body.destName.replace(' ', '').split(',')[1]}`
+            `http://localhost:3000/get-coordinates/`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: req.body.destName.split(',')[0].trim(),
+                    countryCode: req.body.destName.split(',')[1].trim()
+                })
+            }
         );
         const placeCoordJSON = await placeCoord.json();
         const { lat, lng } = placeCoordJSON;

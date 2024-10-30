@@ -16,3 +16,30 @@
     min-height: 100%;
     padding: 20px;
 }
+
+#trip-details {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.destination {
+    @include grey-rounded-border;
+    padding: 10px;
+
+    img {
+        min-width: 100px;
+        max-width: 30%;
+    }
+
+    .dest-header {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+
+        h2 {
+            margin-top: 0px;
+        }
+    }
+}

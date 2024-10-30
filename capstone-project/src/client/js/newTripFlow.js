@@ -1,4 +1,5 @@
 import { displayBanner, SERVER_PATH_BASE, state } from './common.js';
+import { viewTrip } from './tripView.js';
 import { displayTrips } from './sidePanel.js';
 
 async function createNewTrip(submitEvent) {
@@ -17,9 +18,11 @@ async function createNewTrip(submitEvent) {
         const responseData = await response.json();
 
         if (!response.ok) {
-            throw new Error(`${response.status} server response in addDestination():: ${responseData.message}`);
+            throw new Error(
+                `${response.status} server response in addDestination():: ${responseData.message}`
+            );
         }
-        
+
         displayBanner(`✅ ${responseData.message}`);
         displayTrips();
     } catch (error) {
@@ -88,11 +91,15 @@ async function addDestination(submitEvent) {
         );
         const responseData = await response.json();
 
-        if (!response.ok) {  
-            throw new Error(`${response.status} server response in addDestination():: ${responseData.message}`);
+        if (!response.ok) {
+            throw new Error(
+                `${response.status} server response in addDestination():: ${responseData.message}`
+            );
         }
 
         displayBanner(`✅ ${responseData.message}`);
+        // Refresh trip with newly added destination
+        viewTrip(state.selectedTripId);
     } catch (error) {
         console.log(`Error in addDestination():: ${error.message}`);
         displayBanner(`❌ Error: ${error.message}`, false);

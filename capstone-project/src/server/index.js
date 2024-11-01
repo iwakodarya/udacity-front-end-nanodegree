@@ -196,11 +196,13 @@ app.post('/add-destination-to-trip/:tripId', async (req, res) => {
         destInfo.lng = lng;
         destInfo.weatherForecast = weatherForecast;
 
+        const PhotoSearchKey = req.body.destName.split(',')[0].toLowerCase();
+
         // get photo for destination; add to destInfo
         const destImg = await fetch(`http://localhost:3000/get-image/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ searchStr: req.body.destName })
+            body: JSON.stringify({ searchStr: PhotoSearchKey })
         });
         const destImgJSON = await destImg.json();
         destInfo.img = destImgJSON.imageURL;
@@ -237,9 +239,14 @@ app.post('/get-image', async (req, res) => {
         // sort by views pick one with most views
         const hits = responseJSON.hits;
         const sortedByViewCnt = hits.sort(
-            (ImgA, ImgB) => ImgA.views - ImgB.views
+            (ImgA, ImgB) => ImgB.views - ImgA.views
         );
-        res.send({ imageURL: sortedByViewCnt[0].webformatURL });
+        const taggedWithCityName = sortedByViewCnt.filter((img) =>
+            img.tags.includes(req.body.searchStr)
+        );
+        if (taggedWithCityName.length > 0) {
+            res.send({ imageURL: taggedWithCityName[0].webformatURL });
+        } else res.send({ imageURL: sortedByViewCnt[0].webformatURL });
     } catch (error) {
         res.status(500).json({
             message: `Error in /get-image :: ${error.message}`

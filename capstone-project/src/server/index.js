@@ -1,22 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
-const projectData = {
-    trips: [
-        {
-            tripName: 'Japan',
-            startDate: '2024-12-20',
-            endDate: '2025-01-05',
-            tripId: 0,
-            destinations: []
-        },
-        {
-            tripName: 'France',
-            startDate: '2022-11-01',
-            endDate: '2022-11-30',
-            tripId: 1,
-            destinations: []
-        }
-    ]
-};
+const projectData = {};
 
 // Import libraries
 import express, { urlencoded, json, static as expressStatic } from 'express';

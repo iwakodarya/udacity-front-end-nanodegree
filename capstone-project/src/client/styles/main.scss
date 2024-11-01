@@ -31,11 +31,6 @@
     flex-direction: column;
     gap: 10px;
 
-    img {
-        min-width: 100px;
-        max-width: 30%;
-    }
-
     .dest-header {
         display: flex;
         align-items: start;
@@ -56,5 +51,35 @@
         h4 {
             margin-top: 0px;
         }
+    }
+}
+
+.dest-image {
+    min-width: 100px;
+    max-width: 30%;
+}
+
+.weather {
+    display: flex;
+    gap: 3px;
+
+    img {
+        width: 50px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+}
+
+.forecast {
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+
+    p {
+        text-align: center;
+        margin-top: 3px;
+        margin-bottom: 3px;
     }
 }

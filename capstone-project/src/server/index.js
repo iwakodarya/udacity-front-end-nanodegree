@@ -182,7 +182,14 @@ app.post('/add-destination-to-trip/:tripId', async (req, res) => {
         );
         const responseJson = await response.json();
         const weatherForecast = responseJson.data.map((forecast) => {
-            return { date: forecast.valid_date, temp: forecast.temp };
+            return {
+                date: forecast.valid_date,
+                low_temp: forecast.low_temp,
+                high_temp: forecast.high_temp,
+                temp: forecast.temp,
+                desc: forecast.weather.description,
+                icon: `${forecast.weather.icon}.png`
+            };
         });
         const destInfo = req.body;
         destInfo.lat = lat;

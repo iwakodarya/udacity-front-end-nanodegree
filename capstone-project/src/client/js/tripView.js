@@ -38,9 +38,10 @@ async function viewDestination(destination) {
     const destHeader = document.createElement('div');
     destHeader.classList.add('dest-header');
     const destName = document.createElement('h2');
-    destName.innerHTML = destination.destName;
+    destName.innerHTML = `📍 ${destination.destName}`;
     const destImg = document.createElement('img');
     destImg.setAttribute('src', destination.img);
+    destImg.classList.add('dest-image');
     destHeader.appendChild(destName);
     destHeader.appendChild(destImg);
     destDiv.appendChild(destHeader);
@@ -52,19 +53,18 @@ async function viewDestination(destination) {
     const end = new Date(destination.endDate);
     let curr = new Date(destination.startDate);
 
-    console.log(`start: ${curr}, end: ${end}`);
-
     while (curr <= end) {
         destDays.push(new Date(curr));
         curr.setDate(curr.getDate() + 1);
     }
-    console.log(`date range = `, destDays);
 
     destDays.forEach((day, index) => {
         const destDay = document.createElement('div');
         destDay.classList.add('dest-day-view');
         const date = document.createElement('h4');
-        date.innerHTML = `Day ${index+1}: ${day.toLocaleDateString('en-US', { timeZone: 'UTC'})}`;
+        date.innerHTML = `Day ${index + 1}: ${day.toLocaleDateString('en-US', {
+            timeZone: 'UTC'
+        })}`;
         destDay.appendChild(date);
 
         // Add forecast weather if available
@@ -72,9 +72,23 @@ async function viewDestination(destination) {
             (forecast) => forecast.date == day.toISOString().slice(0, 10)
         );
         const forecastDiv = document.createElement('div');
+        forecastDiv.classList.add('forecast');
+
         if (forecast) {
-            forecastDiv.innerHTML = `Forecast: ${forecast.temp}C`;
-        } else forecastDiv.innerHTML = 'Forecast not available.';
+            const desc = document.createElement('p');
+            desc.innerHTML = forecast.desc;
+            const weatherDiv = document.createElement('div');
+            weatherDiv.classList.add('weather');
+            const icon = document.createElement('img');
+            icon.setAttribute('src', `icons/${forecast.icon}`);
+            const temp = document.createElement('p');
+            temp.innerHTML = `Low: ${forecast.low_temp}C<br>
+            High: ${forecast.high_temp}C `;
+            weatherDiv.appendChild(icon);
+            weatherDiv.appendChild(temp);
+            forecastDiv.appendChild(desc);
+            forecastDiv.appendChild(weatherDiv);
+        } else forecastDiv.innerHTML = 'Forecast not yet available.';
         destDay.appendChild(forecastDiv);
 
         destDiv.appendChild(destDay);

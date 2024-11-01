@@ -1,5 +1,7 @@
 // Setup empty JS object to act as endpoint for all routes
-const projectData = {};
+const projectData = {
+    trips: []
+};
 
 // Import libraries
 import express, { urlencoded, json, static as expressStatic } from 'express';
@@ -42,8 +44,6 @@ app.post('/addnewtrip', (req, res) => {
         tripData.destinations = [];
         projectData.trips.push(tripData);
         res.status(200).json({ message: 'Trip created successfully.' });
-        // temp -
-        console.log('data receieved: ', tripData);
     } catch (error) {
         res.status(500).json({ message: 'Failed to create a trip.' });
     }
@@ -52,16 +52,18 @@ app.post('/addnewtrip', (req, res) => {
 // Get list of existing trips (basic info only)
 app.get('/loadtrips', (req, res) => {
     try {
-        res.send(
-            projectData.trips.map((trip) => {
-                return {
-                    tripName: trip.tripName,
-                    startDate: trip.startDate,
-                    endDate: trip.endDate,
-                    tripId: trip.tripId
-                };
-            })
-        );
+        if (projectData.trips.length > 0) {
+            res.send(
+                projectData.trips.map((trip) => {
+                    return {
+                        tripName: trip.tripName,
+                        startDate: trip.startDate,
+                        endDate: trip.endDate,
+                        tripId: trip.tripId
+                    };
+                })
+            );
+        } else res.send([]);
     } catch (error) {
         res.status(500).json({ message: 'Failed to list existing trips.' });
     }

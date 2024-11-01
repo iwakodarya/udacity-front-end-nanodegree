@@ -19,7 +19,7 @@ async function createNewTrip(submitEvent) {
 
         if (!response.ok) {
             throw new Error(
-                `${response.status} server response in addDestination():: ${responseData.message}`
+                `${response.status} server response in createNewTrip():: ${responseData.message}`
             );
         }
 
